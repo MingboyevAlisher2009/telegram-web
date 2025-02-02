@@ -14,8 +14,6 @@ import {
 } from "../ui/context-menu";
 import Image from "next/image";
 import LinkPreview from "@/app/(chat)/_components/link-preview";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
 
 interface Props {
   message: IMessage;
@@ -75,14 +73,11 @@ const MessageCard: FC<Props> = ({ message, onReaction, onDeleteMessage }) => {
             )}
 
             {message.reaction && (
-              <div className="mt-2 flex items-center bg-white/50 p-1 rounded-full w-fit gap-1 cursor-pointer">
+              <div
+                onClick={() => onReaction(message.reaction, message._id)}
+                className="mt-2 flex items-center bg-white/50 p-1 rounded-full text-base w-fit gap-1 cursor-pointer"
+              >
                 <p>{message.reaction}</p>
-                <Avatar className="w-5 h-5">
-                  <AvatarImage src={message.sender.avatar} />
-                  <AvatarFallback className="text-white text-sm font-semibold">
-                    {message.sender.email.charAt(0)}
-                  </AvatarFallback>
-                </Avatar>
               </div>
             )}
 

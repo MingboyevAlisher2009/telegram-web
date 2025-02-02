@@ -9,14 +9,17 @@ const LinkPreview = ({ url }: { url: string }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    if (!url) return;
+
     const fetchPreview = async () => {
       setIsLoading(true);
       try {
         const { data } = await axios.get(
-          `https://api.linkpreview.net/?key=9c613223118ba8fcca95e605fbe81480&q=${encodeURIComponent(
+          `https:/iframe.ly/api/oembed?url=${encodeURIComponent(
             url
-          )}`
+          )}&api_key=b73f64dbc1ce0e90e99322`
         );
+        console.log("API Response:", data); // Debugging
         setPreview(data);
       } catch (error) {
         console.error("Error fetching preview", error);
@@ -24,8 +27,9 @@ const LinkPreview = ({ url }: { url: string }) => {
         setIsLoading(false);
       }
     };
+
     fetchPreview();
-  }, []);
+  }, [url]);
 
   return (
     <div className="max-w-96">
@@ -46,8 +50,12 @@ const LinkPreview = ({ url }: { url: string }) => {
               <h3 className="text-base mb-3">{preview.title}</h3>
               <p>{preview.description}</p>
             </div>
-            {preview.image && (
-              <img className="w-32 h-32" src={preview.image} alt="preview" />
+            {preview.thumbnail_url && (
+              <img
+                className="w-32 h-32 rounded bg-cover bg-center object-contain"
+                src={preview.thumbnail_url}
+                alt="preview"
+              />
             )}
           </div>
         )

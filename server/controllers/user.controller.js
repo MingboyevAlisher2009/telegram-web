@@ -48,11 +48,8 @@ class UserController {
             { sender: contactId, receiver: user },
           ],
         })
-        .populate({ path: "sender", select: "email firstName lastName avatar" })
-        .populate({
-          path: "receiver",
-          select: "email email firstName lastName avatar",
-        });
+        .populate({ path: "sender", select: "email avatar" })
+        .populate({ path: "receiver", select: "email avatar" });
 
       await messageModel.updateMany(
         { sender: contactId, receiver: user, status: CONST.SENT },
@@ -139,12 +136,23 @@ class UserController {
   async createReaction(req, res, next) {
     try {
       const { messageId, reaction } = req.body;
-      const updatedMessage = await messageModel.findByIdAndUpdate(
-        messageId,
-        { reaction },
-        { new: true }
-      );
-      res.status(201).json({ updatedMessage });
+      const message = await messageModel.findById(messageId);
+
+      if (!message) {
+        return res.status(404).json({ error: "Message not found" });
+      }
+
+      if (message.reaction === reaction) {
+        message.reaction = null;
+      } else {
+        message.reaction = reaction;
+      }
+
+      await message.save();
+
+      console.log(message);
+
+      res.status(200).json({ updatedMessage: message });
     } catch (error) {
       next(error);
     }

@@ -34,7 +34,7 @@ export interface IMessage {
 }
 
 export interface ILInkLinkPreview {
-  image: string | null;
+  thumbnail_url: string | null;
   title: string | null;
   description: string | null;
   url: string | null;
