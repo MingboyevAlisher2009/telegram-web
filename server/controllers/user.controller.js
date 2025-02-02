@@ -6,7 +6,7 @@ const mailService = require("../service/mail.service");
 
 class UserController {
   async getContacts(req, res, next) {
-	  console.log(req.user);
+    console.log(req.user);
     try {
       const userId = req.user._id;
 
@@ -29,8 +29,7 @@ class UserController {
 
         contact.lastMessage = lastMessage;
       }
-	  console.log(allContacts);
-	  
+      console.log(allContacts);
 
       return res.status(200).json({ contacts: allContacts });
     } catch (error) {
@@ -49,8 +48,11 @@ class UserController {
             { sender: contactId, receiver: user },
           ],
         })
-        .populate({ path: "sender", select: "email" })
-        .populate({ path: "receiver", select: "email" });
+        .populate({ path: "sender", select: "email firstName lastName avatar" })
+        .populate({
+          path: "receiver",
+          select: "email email firstName lastName avatar",
+        });
 
       await messageModel.updateMany(
         { sender: contactId, receiver: user, status: CONST.SENT },
