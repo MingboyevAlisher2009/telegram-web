@@ -26,7 +26,7 @@ const TopChat: FC<Props> = ({ messages }) => {
   const { typing } = useLoading();
 
   return (
-    <div className="w-full flex items-center justify-between sticky top-0 z-50 h-[8vh] p-2 border-b bg-background">
+    <div className="w-full flex items-center justify-between sticky top-0 z-50 h-[8vh] p-2 border-b bg-background/50 backdrop-blur-sm">
       <div className="flex items-center">
         <Avatar className="z-40">
           <AvatarImage

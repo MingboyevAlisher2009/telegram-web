@@ -41,7 +41,7 @@ const MessageCard: FC<Props> = ({ message, onReaction, onDeleteMessage }) => {
       <ContextMenuTrigger className="rounded" asChild>
         <div
           className={cn(
-            "m-2.5 font-medium text-xs flex",
+            "m-2.5 font-medium text-xs flex pb-16",
             message.receiver._id === currentContact?._id
               ? "justify-start"
               : "justify-end"
@@ -52,7 +52,7 @@ const MessageCard: FC<Props> = ({ message, onReaction, onDeleteMessage }) => {
               "relative inline-block p-2 pl-3 pr-12 max-w-[75%] rounded-lg",
               message.receiver._id === currentContact?._id
                 ? "bg-primary text-white"
-                : "bg-secondary text-gray-900"
+                : "bg-secondary text-gray-900 dark:text-white"
             )}
           >
             {message.image && (
